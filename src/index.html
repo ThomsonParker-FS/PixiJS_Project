@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New ES6 / CSS Project</title>
+  </head>
+  <body>
+    <div id="game"></div>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
+
+    <script type="module">
+      const app = new PIXI.Application();
+
+      const circle = new PIXI.Graphics();
+
+      let xvelocity = 1;
+      let yvelocity = 1;
+
+      await app
+        .init({
+          backgroundColor: "#3398b9",
+          width: 700,
+          height: 700,
+        })
+        .then(() => {
+          document.getElementById("game").appendChild(app.canvas);
+
+          circle.beginFill("#ff0000");
+          circle.drawCircle(0, 0, 40);
+          circle.x = 300;
+          circle.y = 300;
+          circle.endFill();
+          app.stage.addChild(circle);
+
+          let borders = [];
+
+          const border1 = new PIXI.Graphics();
+          border1.beginFill("#ff0000");
+          border1.drawRect(0, 0, app.renderer.width, 10);
+          borders.push(border1);
+          border1.endFill();
+          app.stage.addChild(border1);
+
+          const border2 = new PIXI.Graphics();
+
+          border2.beginFill("#ff0000");
+          border2.drawRect(0, 200, app.renderer.width, 10);
+          //borders.push(border2);
+          border2.endFill();
+          app.stage.addChild(border2);
+
+          console.log("app.renderer.height = ", app.renderer.height);
+          console.log("app.renderer.width = ", app.renderer.width);
+          console.log("border2.x = ", border2.x, "border2.y = ", border2.y);
+        })
+        .then(() => {
+          app.ticker.add((delta) => {
+            //what do we have this wrapped in a then chain?
+
+            if (circle.x >= app.renderer.width - 40 || circle.x <= 0 + 40) {
+              xvelocity = -xvelocity;
+              console.log("circle x = ", circle.x);
+            }
+            if (circle.y >= app.renderer.height - 49 || circle.y <= 0 + 40) {
+              yvelocity = -yvelocity;
+              console.log("circle y = ", circle.y);
+            }
+
+            circle.x += xvelocity;
+            circle.y += yvelocity;
+          });
+        });
+
+      // const border2 = new PIXI.Graphics();
+      // border2.beginFill("#ff0000");
+      // border2.drawRect(0, app.renderer.height - 10, app.renderer.width, 10);
+      // borders.push(border2);
+      // border2.endFill();
+      // border2.x = 0;
+      // border2.y = app.renderer.height - 10;
+      // app.stage.addChild(border2);
+
+      // border3 = new PIXI.Graphics();
+      // border3.beginFill("#ff0000");
+      // border3.drawRect(0, 10, 10, app.renderer.height - 20);
+      // borders.push(border3);
+      // app.stage.addChild(border3);
+
+      // border4 = new PIXI.Graphics();
+      // border4.beginFill("#ff0000");
+      // border4.drawRect(
+      //   app.renderer.width - 10,
+      //   10,
+      //   10,
+      //   app.renderer.height - 20
+      // );
+      // borders.push(border4);
+      // app.stage.addChild(border4);
+    </script>
+  </body>
+</html>
