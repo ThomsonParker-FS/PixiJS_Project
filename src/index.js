@@ -17,6 +17,83 @@ const app = new PIXI.Application();
       }
 
 
+      function renderBorderTop(border, change){
+           if(!change){
+            border.beginFill("#ff0000");
+            border.drawRect(0, 0, app.renderer.width, 10);
+            border.endFill();            
+            
+           }else{
+            border.clear();
+            border.beginFill("#0000ff");
+            border.drawRect(0, 0, app.renderer.width, 10);
+            border.endFill();            
+            
+           }
+           app.stage.addChild(border);
+          }
+
+          
+          function renderBorderBottom(border, change){
+           if(!change){
+            border.beginFill("#ff0000");
+            border.drawRect(0, 690, app.renderer.width, 10);
+            border.endFill();            
+            
+           }else{
+            border.clear();
+            border.beginFill("#0000ff");
+            border.drawRect(0, 690, app.renderer.width, 10);
+            border.endFill();            
+            
+           }
+           app.stage.addChild(border);
+          }
+
+          
+          function renderBorderLeft(border, change){
+           if(!change){
+            border.beginFill("#ff0000");
+            border.drawRect(0, 10, 10, app.renderer.height - 20);
+            border.endFill();            
+            
+           }else{
+            border.clear();
+            border.beginFill("#0000ff");
+            border.drawRect(0, 10, 10, app.renderer.height - 20);
+            border.endFill();            
+            
+           }
+           app.stage.addChild(border);
+          }
+
+          function renderBorderRight(border, change){
+           if(!change){
+            border.beginFill("#ff0000");
+            border.drawRect(690, 10, 10, app.renderer.height - 20);
+            border.endFill();            
+            
+           }else{
+            border.clear();
+            border.beginFill("#0000ff");
+            border.drawRect(690, 10, 10, app.renderer.height - 20);
+            border.endFill();            
+            
+           }
+           app.stage.addChild(border);
+          }
+
+          let borderTop = new PIXI.Graphics();
+          
+          
+          let borderBottom = new PIXI.Graphics();
+
+
+          let borderLeft = new PIXI.Graphics();
+
+
+          let borderRight = new PIXI.Graphics();
+
 
       await app
         .init({
@@ -34,77 +111,14 @@ const app = new PIXI.Application();
           circle.endFill();
           app.stage.addChild(circle);
 
-          let borders = [];
-
-          function rendereBorder1(change){
-           if(!change){
-
-           }else{
-
-           }
-          }
-
+          renderBorderTop(borderTop, false);
+          renderBorderBottom(borderBottom, false);
+          renderBorderLeft(borderLeft, false);
+          renderBorderRight(borderRight, false);
           
-          function renderBorder2(change){
-           if(!change){
-
-           }else{
-            
-           }
-          }
-
           
-          function renderBorder3(change){
-           if(!change){
-
-           }else{
-            
-           }
-          }
-
-          function renderBorder4(change){
-           if(!change){
-
-           }else{
-            
-           }
-          }
-
-
-          const border1 = new PIXI.Graphics();
-          border1.beginFill("#ff0000");
-          border1.drawRect(0, 0, app.renderer.width, 10);
-          borders.push(border1);
-          border1.endFill();
-          app.stage.addChild(border1);
-
-          const border2 = new PIXI.Graphics();
-
-          border2.beginFill("#ff0000");
-          border2.drawRect(0, 690, app.renderer.width, 10);
-          //borders.push(border2);
-          border2.endFill();
-          app.stage.addChild(border2);
-
-
-          const border3 = new PIXI.Graphics();
-          border3.beginFill("#ff0000");
-          border3.drawRect(0, 10, 10, app.renderer.height - 20);
-          borders.push(border3);
-          border3.endFill();
-          app.stage.addChild(border3);
-
-
-          const border4 = new PIXI.Graphics();
-          border4.beginFill("#ff0000");
-          border4.drawRect(690, 10, 10, app.renderer.height - 20);
-          borders.push(border4);
-          border4.endFill();
-          app.stage.addChild(border4);
-
           console.log("app.renderer.height = ", app.renderer.height);
           console.log("app.renderer.width = ", app.renderer.width);
-          console.log("border2.x = ", border2.x, "border2.y = ", border2.y);
         })
         .then(() => {
           app.ticker.add((delta) => {
@@ -115,17 +129,32 @@ const app = new PIXI.Application();
                 
                 //right is hit                
                 hitBorders.right = true;
+                renderBorderRight(borderRight, true);
+
 
               } else if (circle.x <= 0 + 50) {
                 //left is hit
                 hitBorders.left = true;
+                renderBorderLeft(borderLeft, true);
               }
               xvelocity = -xvelocity;
               // console.log("circle x = ", circle.x);
             }
             if (circle.y >= app.renderer.height - 50 || circle.y <= 0 + 50) {
               
-              circly.y >= app.renderer.height - 50 ? hitBorders.top = true : hitBorders.bottom = true;
+              if(circle.y >= app.renderer.height - 50){
+                
+                hitBorders.bottom = true
+                renderBorderBottom(borderBottom, true);
+
+              } else {
+                
+                hitBorders.top = true;
+                renderBorderTop(borderTop, true);5
+
+              }
+
+                
               
               yvelocity = -yvelocity;
               // console.log("circle y = ", circle.y);
